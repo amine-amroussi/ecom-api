@@ -5,6 +5,7 @@ const {
   updateOrder,
   showAllMyOrders,
   stripeSession,
+  editStatus,
 } = require("../controller/orderController");
 const router = require("express").Router();
 const {
@@ -20,6 +21,10 @@ router
 router.route("/create-checkout-session").post(authenticateUser, stripeSession);
 
 router.route("/showAllMyOrders").get(authenticateUser, showAllMyOrders);
+
+router
+  .route("/edit-status/:id")
+  .patch([authenticateUser, authorizePermissions], editStatus);
 
 router
   .route("/:id")

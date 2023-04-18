@@ -124,9 +124,21 @@ const deleteProductFromCart = async (req, res) => {
   res.status(StatusCodes.OK).json({ cart });
 };
 
+const clearCart = async (req, res) => {
+  const { userId } = req.user;
+  const cart = await Cart.findOneAndRemove({ user: userId });
+
+  if (!cart) {
+    throw new CustomError.BadRequestError(`this cart is not exist`);
+  }
+
+  res.status(200).json({ msg: `the cart was clreared successfly` });
+};
+
 module.exports = {
   addToCart,
   showMyCart,
   removeItem,
   deleteProductFromCart,
+  clearCart
 };

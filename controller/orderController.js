@@ -7,22 +7,22 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const createOrder = async (req, res) => {
   const { products, tax, shippingFee } = req.body;
-  console.log("---------------- Enter here --------------------")
-  console.log(req.body)
+  console.log(req.body);
   if (!products || products.length < 1) {
     throw new CustomError.BadRequestError("No cart items provided");
   }
-  if (!shippingFee || !tax) {
-    throw new CustomError.BadRequestError(
-      "the tax and shipping fee must be provided."
-    );
-  }
+
+  // if (!shippingFee || !tax) {
+  //   throw new CustomError.BadRequestError(
+  //     "the tax and shipping fee must be provided."
+  //   );
+  // }
 
   let orderItems = [];
   let subtotal = 0;
 
   for (const item of products) {
-    const dbProduct = await Product.findOne({ _id: item._id });
+    const dbProduct = await Product.findOne({ _id: item.product });
     if (!dbProduct)
       throw new CustomError.NotFoundError(
         `there is no product with id : ${item.product}`
@@ -39,7 +39,7 @@ const createOrder = async (req, res) => {
     orderItems = [...orderItems, singleOrderItem];
     subtotal += item.amount * price;
   }
-  
+
   const total = shippingFee + tax + subtotal;
 
   const order = await Order.create({
@@ -142,9 +142,23 @@ const stripeSession = async (req, res) => {
     cancel_url: `http://localhost:3000/cart`,
   };
   const session = await stripe.checkout.sessions.create(params);
-  console.log("Result")
-  console.log(session)
+  console.log("Result");
+  console.log(session);
   res.status(StatusCodes.OK).json(session);
+};
+
+const editStatus = async (req, res) => {
+  const { id } = req.params;
+  const order = await Order.findOneAndUpdate({ _id: id }, req.body, {
+    runValidators: true,
+    new: true,
+  });
+
+  if (!order) {
+    throw new CustomError.NotFoundError(`there is no item with id ${id}`);
+  }
+
+  res.status(StatusCodes.OK).json({ order });
 };
 
 module.exports = {
@@ -154,4 +168,5 @@ module.exports = {
   updateOrder,
   showAllMyOrders,
   stripeSession,
+  editStatus
 };
