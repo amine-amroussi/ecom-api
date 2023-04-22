@@ -29,7 +29,7 @@ const reviewRouter = require("./router/reviewRouter");
 const orderRouter = require("./router/orderRouter");
 const cartRouter = require("./router/cartRouter");
 const adressRouter = require('./router/adressRouter')
-const emailRouter = require('./router/sendEmailRouter')
+// const emailRouter = require('./router/sendEmailRouter')
 
 const limiter = rateLimiter({
     windowMs: 15 * 60 * 1000,
@@ -68,7 +68,7 @@ app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/adress", adressRouter);
-app.use("/api/v1/email", emailRouter);
+// app.use("/api/v1/email", emailRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
