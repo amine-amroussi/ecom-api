@@ -11,7 +11,6 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 // database
 const connectDB = require("./db/connect");
@@ -53,10 +52,6 @@ app.use(
 app.use(xss());
 app.use(mongoSanitize());
 
-const apiProxy = createProxyMiddleware("/api", {
-  target: "https://planty-store-api.onrender.com",
-  changeOrigin: true,
-});
 
 app.use("/api", apiProxy);
 
