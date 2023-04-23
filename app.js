@@ -18,7 +18,6 @@ const connectDB = require("./db/connect");
 // import middlewares
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const headers = require("./middleware/access-headers");
 
 // import routes
 const authRouter = require("./router/authRouter");
