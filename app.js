@@ -11,6 +11,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 // database
 const connectDB = require("./db/connect");
@@ -18,7 +19,7 @@ const connectDB = require("./db/connect");
 // import middlewares
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const headers = require('./middleware/access-headers')
+const headers = require("./middleware/access-headers");
 
 // import routes
 const authRouter = require("./router/authRouter");
@@ -27,31 +28,41 @@ const productRouter = require("./router/productRouter");
 const reviewRouter = require("./router/reviewRouter");
 const orderRouter = require("./router/orderRouter");
 const cartRouter = require("./router/cartRouter");
-const adressRouter = require('./router/adressRouter')
+const adressRouter = require("./router/adressRouter");
 // const emailRouter = require('./router/sendEmailRouter')
 
 const limiter = rateLimiter({
-    windowMs: 15 * 60 * 1000,
-    max : 100
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
-
 
 // set packages
 app.set("trust proxy", 1);
-app.use(limiter)
-app.use(cors({
-  origin : process.env.CLIENT_URL,
-  credentials : true
-}))
-app.use(helmet({
-  crossOriginResourcePolicy : false,
-}))
-app.use(xss())
-app.use(mongoSanitize())
+app.use(limiter);
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+app.use(xss());
+app.use(mongoSanitize());
+
+const apiProxy = createProxyMiddleware("/api", {
+  target: "https://planty-store-api.onrender.com",
+  changeOrigin: true,
+});
+
+app.use("/api", apiProxy);
 
 // set the middlewares
 
-app.use(headers)
+// app.use(headers);
 
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
