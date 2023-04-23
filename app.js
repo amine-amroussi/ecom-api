@@ -52,12 +52,7 @@ app.use(
 app.use(xss());
 app.use(mongoSanitize());
 
-
-app.use("/api", apiProxy);
-
 // set the middlewares
-
-// app.use(headers);
 
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
