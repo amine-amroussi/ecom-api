@@ -11,8 +11,6 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
-const Sib = require('sib-api-v3-sdk')
-
 
 // database
 const connectDB = require("./db/connect");
@@ -20,6 +18,7 @@ const connectDB = require("./db/connect");
 // import middlewares
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
+const headers = require('./middleware/access-headers')
 
 // import routes
 const authRouter = require("./router/authRouter");
@@ -36,6 +35,7 @@ const limiter = rateLimiter({
     max : 100
 });
 
+
 // set packages
 app.set("trust proxy", 1);
 app.use(limiter)
@@ -50,6 +50,9 @@ app.use(xss())
 app.use(mongoSanitize())
 
 // set the middlewares
+
+app.use(headers)
+
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
