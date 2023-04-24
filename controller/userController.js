@@ -61,6 +61,7 @@ const updateUserPassword = async (req, res) => {
 const showCurrentUser = async (req, res) => {
   const { userId } = req.user;
   const user = await User.findOne({ _id: userId }).select('-password');
+  console.log(user)
   checkPermissions(req.user, user._id)
   res.status(StatusCodes.OK).json({ user });
 };
