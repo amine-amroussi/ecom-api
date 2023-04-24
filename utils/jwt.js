@@ -22,8 +22,8 @@ const attachCookiesToResponse = ({ res, user }) => {
     expires: new Date(Date.now() + oneDay),
     secure: true,
     signed: true,
-    // sameSite : "none",
-    // domain :".cyclic.app"
+    sameSite : "none",
+    domain :".cyclic.app"
   });
 };
 
