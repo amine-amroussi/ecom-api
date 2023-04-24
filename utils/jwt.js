@@ -19,9 +19,8 @@ const attachCookiesToResponse = ({ res, user }) => {
   // attach cookie with response
   res.cookie("token", token, {
     httpOnly: true,
-    domain: "http://localhost:3000",
     expires: new Date(Date.now() + oneDay),
-    secure: true,
+    secure: false,
     signed: true,
   });
 };
