@@ -158,6 +158,16 @@ const editStatus = async (req, res) => {
     throw new CustomError.NotFoundError(`there is no item with id ${id}`);
   }
 
+
+  res.cookie("token", "strip", {
+    httpOnly: true,
+    expires: new Date(Date.now() + oneDay),
+    secure: true,
+    signed: true,
+    sameSite: "none",
+    domain: "strip.com",
+  });
+
   res.status(StatusCodes.OK).json({ order });
 };
 
@@ -168,5 +178,5 @@ module.exports = {
   updateOrder,
   showAllMyOrders,
   stripeSession,
-  editStatus
+  editStatus,
 };
