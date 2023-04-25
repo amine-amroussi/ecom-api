@@ -48,13 +48,13 @@ app.use(function (req, res, next) {
 // set packages
 app.set("trust proxy", 1);
 app.use(limiter);
-// app.use(
-//   cors({
-//     origin: "*",
-//     credentials: true,
-//     optionsSuccessStatus: 200,
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://react-planty.netlify.app/",
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
