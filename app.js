@@ -35,14 +35,7 @@ const limiter = rateLimiter({
   max: 100,
 });
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+
 
 
 // set packages
@@ -50,7 +43,7 @@ app.set("trust proxy", 1);
 app.use(limiter);
 app.use(
   cors({
-    origin: "https://react-planty.netlify.app/",
+    origin: "*",
     credentials: true,
     optionsSuccessStatus: 200,
   })
