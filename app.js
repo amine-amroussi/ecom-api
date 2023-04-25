@@ -11,6 +11,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 // database
 const connectDB = require("./db/connect");
@@ -34,6 +35,29 @@ const limiter = rateLimiter({
   max: 100,
 });
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://react-planty.netlify.app");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: "https://blue-outstanding-shrimp.cyclic.app",
+    changeOrigin: true,
+    pathRewrite: {
+      "^/api": "/api/v1/adress",
+    },
+    onProxyRes: function (proxyRes, req, res) {
+      proxyRes.headers["Access-Control-Allow-Origin"] =
+        "https://react-planty.netlify.app";
+    },
+  })
+);
 
 // set packages
 app.set("trust proxy", 1);
