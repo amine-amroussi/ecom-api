@@ -18,11 +18,11 @@ const attachCookiesToResponse = ({ res, user }) => {
 
   // attach cookie with response
   res.cookie("token", token, {
-    httpOnly: false,
+    httpOnly: true,
     expires: new Date(Date.now() + oneDay),
-    secure: true,
+    secure: false,
     signed: true,
-    sameSite : "lax",
+    sameSite : "none",
     domain :".cyclic.app"
   });
 };
