@@ -36,7 +36,7 @@ const limiter = rateLimiter({
 });
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://react-planty.netlify.app");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -44,20 +44,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(
-  "/api",
-  createProxyMiddleware({
-    target: "https://blue-outstanding-shrimp.cyclic.app",
-    changeOrigin: true,
-    pathRewrite: {
-      "^/api": "/api/v1/adress",
-    },
-    onProxyRes: function (proxyRes, req, res) {
-      proxyRes.headers["Access-Control-Allow-Origin"] =
-        "https://react-planty.netlify.app";
-    },
-  })
-);
 
 // set packages
 app.set("trust proxy", 1);
