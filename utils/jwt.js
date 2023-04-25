@@ -20,10 +20,7 @@ const attachCookiesToResponse = ({ res, user }) => {
   res.cookie("token", token, {
     httpOnly: true,
     expires: new Date(Date.now() + oneDay),
-    secure: true,
-    signed: true,
-    sameSite : "none",
-    domain :".cyclic.app"
+    secure: process.env.NODE_ENV === 'production',
   });
 };
 
