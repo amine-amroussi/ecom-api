@@ -43,9 +43,8 @@ app.set("trust proxy", 1);
 app.use(limiter);
 app.use(
   cors({
-    origin: "*",
+    origin: ["https://react-planty.netlify.app/"],
     credentials: true,
-    optionsSuccessStatus: 200,
   })
 );
 app.use(
