@@ -34,15 +34,21 @@ const limiter = rateLimiter({
   max: 100,
 });
 
+app.options("/api/v1/", (req, res) => {
+  const origin = req.headers.origin;
+  res.header("Access-Control-Allow-Origin", origin);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.send();
+});
+
 // set packages
 app.set("trust proxy", 1);
 app.use(limiter);
 app.use(
   cors({
-    origin: '*',
+    origin: "*",
     credentials: true,
-    optionsSuccessStatus : 200,
-
+    optionsSuccessStatus: 200,
   })
 );
 app.use(
@@ -83,7 +89,9 @@ const PORT = process.env.PORT || 5000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(PORT, () => console.log(`The server is start in port ${PORT} ...`));
+    app.listen(PORT, () =>
+      console.log(`The server is start in port ${PORT} ...`)
+    );
   } catch (error) {
     console.log(error);
   }
