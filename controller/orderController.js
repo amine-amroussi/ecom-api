@@ -138,8 +138,8 @@ const stripeSession = async (req, res) => {
     submit_type: "pay",
     payment_method_types: ["card"],
     billing_address_collection: "auto",
-    success_url: `http://localhost:3000/checkout/success`,
-    cancel_url: `http://localhost:3000/cart`,
+    success_url: `https://react-planty.netlify.app/checkout/success`,
+    cancel_url: `https://react-planty.netlify.app/cart`,
   };
   const session = await stripe.checkout.sessions.create(params);
 
