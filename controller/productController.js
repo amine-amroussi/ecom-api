@@ -46,7 +46,7 @@ const uploadImage = async (req, res) => {
     throw new CustomError.BadRequestError("No file uploded.");
   }
   const productImage = req.files.image;
-
+  console.log(productImage);
   if (!productImage.mimetype.startsWith("image")) {
     throw new CustomError.BadRequestError("Please provide a valid image.");
   }
@@ -56,7 +56,7 @@ const uploadImage = async (req, res) => {
   }
   const imagePath = path.join(
     __dirname,
-    "../public/uploads/" + `${productImage.name}`
+    "/public/uploads/" + `${productImage.name}`
   );
   await productImage.mv(imagePath);
   res.status(StatusCodes.OK).json({ image: `/uploads/${productImage.name}` });
