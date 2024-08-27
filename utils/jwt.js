@@ -25,7 +25,6 @@ const attachCookiesToResponse = ({ res, user }) => {
     secure: true,
     sameSite: "None",
     signed : true,
-    domain : "onrender.com"
   });
 };
 
