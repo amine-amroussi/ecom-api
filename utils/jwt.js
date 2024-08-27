@@ -14,6 +14,8 @@ const attachCookiesToResponse = ({ res, user }) => {
   const token = createJWT({ payload: user });
   const oneDay = 1000 * 60 * 60 * 24;
 
+  console.log("jwt" + token);
+  
   console.log(process.env.NODE_ENV);
 
   // attach cookie with response
@@ -23,7 +25,7 @@ const attachCookiesToResponse = ({ res, user }) => {
     secure: true,
     sameSite: "None",
     signed : true,
-    domain : ".cyclic.app"
+    domain : ".onrender.com"
   });
 };
 

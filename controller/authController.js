@@ -11,6 +11,9 @@ const register = async (req, res) => {
   }
   const _user = await User.create(req.body);
   const tokenUser = createTokenUser(_user);
+
+  console.log("attach : " +tokenUser);
+  
   attachCookiesToResponse({ res, user: tokenUser });
   res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
@@ -33,6 +36,8 @@ const login = async (req, res) => {
   }
 
   const token = createTokenUser(user);
+  console.log("this is token : " + token);
+  
 
   attachCookiesToResponse({ res, user: token });
   res.status(StatusCodes.OK).json({ user: token });
