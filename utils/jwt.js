@@ -25,7 +25,7 @@ const attachCookiesToResponse = ({ res, user }) => {
     secure: true,
     sameSite: "None",
     signed : true,
-    domain : ".onrender.com"
+    domain : "https://planty-api-dgcc.onrender.com"
   });
 };
 
